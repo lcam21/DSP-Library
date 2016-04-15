@@ -25,8 +25,13 @@ public:
 	 * @param pNumbResults
 	 * @param pInterval
 	 */
-	float* directFormI(int pFilterOrder, float *pArrayCoefficients, float *pArrayOfPoints,
+	float* DirectFormI(int pFilterOrder, float *pArrayCoefficients, float *pArrayOfPoints,
 			float *pArrayInitialConditions, int pNumbResults);
+
+	/**
+	 *
+	 */
+	int AmountResults(float *pArrayOfInterval);
 
 	/**
 	 * @brief Destruction of class

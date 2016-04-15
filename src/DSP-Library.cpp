@@ -16,14 +16,14 @@ int main() {
 	int filterOrder = 3;
 	float coeficientes[3] = {0.33, 0.33, 0.33};
 	float points[7] = {-1, 2, 4, 6, 4, 0, 0};
-	int cantResult = 7;
-	int interval[2] = {-1, 5};
-
-	float *result;
+	int cantResult;
+	float interval[2] = {-1, 6};
 
 	FIR classFIR;
 
-	result = classFIR.directFormI(filterOrder, coeficientes, points, condicionesIniciales, cantResult);
+	cantResult = classFIR.AmountResults(interval);
+
+	classFIR.DirectFormI(filterOrder, coeficientes, points, condicionesIniciales, cantResult);
 
 	return 0;
 }

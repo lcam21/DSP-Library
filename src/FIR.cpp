@@ -21,11 +21,11 @@ FIR::~FIR() {
 	// TODO Auto-generated destructor stub
 }
 
-float* FIR::directFormI(int pFilterOrder, float *pArrayCoefficients, float *pArrayOfPoints,
+float* FIR::DirectFormI(int pFilterOrder, float *pArrayCoefficients, float *pArrayOfPoints,
 		float *pArrayInitialConditions, int pNumbResults){
 
 	FuntionsMath MathOperation;
-	float arrayResult[pNumbResults];
+	float *arrayResult = new float[pNumbResults];
 	int cont;
 	float *arrayX;
 
@@ -45,6 +45,15 @@ float* FIR::directFormI(int pFilterOrder, float *pArrayCoefficients, float *pArr
 
 	return arrayResult;
 }
+
+int FIR::AmountResults(float *pArrayOfInterval){
+
+		int amountResult = 0;
+
+		amountResult = (pArrayOfInterval[0]-pArrayOfInterval[1]-1)*-1;
+
+		return amountResult;
+	}
 
 
 
