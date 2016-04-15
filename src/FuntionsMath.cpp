@@ -14,32 +14,26 @@ using namespace std;
 
 FuntionsMath::FuntionsMath() {
 	// TODO Auto-generated constructor stub
-
 }
 
 float FuntionsMath::Sumatoria(int pUpperLimit, int pLowerLimit, float *pCoefficients,
-		float *arrayX, int pDomain) {
+		float *arrayX, int pCont) {
 
-	float result = 0;
-	int posInitCond = 0;
-	int condInit;
-	int cont;
-
-	cout << "n: " << pDomain << endl;
+	float result = 0; //save the result
+	int posInitCond = 0; //access to
+	int condInit = 0; //access to
+	int cont; //cont
 
 	for (cont = pLowerLimit; cont < pUpperLimit; cont++) {
 
-		posInitCond = pDomain+pUpperLimit-1;
+		posInitCond = pCont+pUpperLimit-1;
 
 		condInit = arrayX[posInitCond];
 
-		cout << "result: " << pCoefficients[cont] << "*"<< condInit << endl;
-
 		result += pCoefficients[cont]*condInit;
-		pDomain--;
-
+		pCont--;
 	}
-	cout << "Totalresult: " << result << endl;
+
 	return result;
 }
 

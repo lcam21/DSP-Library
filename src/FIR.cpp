@@ -22,7 +22,7 @@ FIR::~FIR() {
 }
 
 float* FIR::directFormI(int pFilterOrder, float *pArrayCoefficients, float *pArrayOfPoints,
-		float *pArrayInitialConditions, int pNumbResults, int *pInterval){
+		float *pArrayInitialConditions, int pNumbResults){
 
 	FuntionsMath MathOperation;
 	float arrayResult[pNumbResults];

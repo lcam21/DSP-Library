@@ -10,9 +10,27 @@
 
 class FIR {
 public:
+
+	/**
+	 * @brief Construction of class
+	 */
 	FIR();
+
+	/**
+	 * @brief Method that implements the Direct Form I of a FIR Filter
+	 * @param pFilterOrder
+	 * @param pArrayCoefficients
+	 * @param pArrayOfPoints
+	 * @param pArrayInitialConditions
+	 * @param pNumbResults
+	 * @param pInterval
+	 */
 	float* directFormI(int pFilterOrder, float *pArrayCoefficients, float *pArrayOfPoints,
-			float *pArrayInitialConditions, int pNumbResults, int *pInterval);
+			float *pArrayInitialConditions, int pNumbResults);
+
+	/**
+	 * @brief Destruction of class
+	 */
 	virtual ~FIR();
 private:
 

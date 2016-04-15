@@ -23,7 +23,7 @@ int main() {
 
 	FIR classFIR;
 
-	result = classFIR.directFormI(filterOrder, coeficientes, points, condicionesIniciales, cantResult, interval);
+	result = classFIR.directFormI(filterOrder, coeficientes, points, condicionesIniciales, cantResult);
 
 	return 0;
 }
