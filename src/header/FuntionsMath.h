@@ -25,8 +25,10 @@ public:
 	 * \param pDomain
 	 * \return result
 	 */
-	int Sumatoria(int pUpperLimit, int pLowerLimit, int pInitialConditions[pUpperLimit],
-			int pCoefficients[pUpperLimit], int pDomain);
+	float Sumatoria(int pUpperLimit, int pLowerLimit, float *pCoefficients,
+			float *arrayX, int pDomain);
+
+	float *ConcatenateArrays(float *pArray1, int pSizeArray, float *pArray2, int pSizeArray2);
 
 	/**
 	 * \brief Destruction of class

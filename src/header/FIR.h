@@ -11,9 +11,11 @@
 class FIR {
 public:
 	FIR();
-	int* directFormI(int pFilterOrder, int *pArrayCoefficients, int *pArrayOfPoints,
-			int *pArrayInitialConditions, int pNumbResults);
+	float* directFormI(int pFilterOrder, float *pArrayCoefficients, float *pArrayOfPoints,
+			float *pArrayInitialConditions, int pNumbResults, int *pInterval);
 	virtual ~FIR();
+private:
+
 };
 
 #endif /* HEADER_FIR_H_ */

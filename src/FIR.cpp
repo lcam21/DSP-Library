@@ -5,10 +5,14 @@
  *      Author: luis
  */
 
+#include <iostream>
 #include "header/FIR.h"
+#include "header/FuntionsMath.h"
 
+using namespace std;
 
 FIR::FIR() {
+
 	// TODO Auto-generated constructor stub
 
 }
@@ -17,21 +21,29 @@ FIR::~FIR() {
 	// TODO Auto-generated destructor stub
 }
 
-int* FIR::directFormI(int pFilterOrder, int *pArrayCoefficients, int *pArrayOfPoints,
-		int *pArrayInitialConditions, int pNumbResults){
+float* FIR::directFormI(int pFilterOrder, float *pArrayCoefficients, float *pArrayOfPoints,
+		float *pArrayInitialConditions, int pNumbResults, int *pInterval){
 
-	int arrayResult[pNumbResults];
-	int *result;
+	FuntionsMath MathOperation;
+	float arrayResult[pNumbResults];
 	int cont;
+	float *arrayX;
+
+	arrayX = MathOperation.ConcatenateArrays(pArrayInitialConditions, (pFilterOrder-1), pArrayOfPoints, pNumbResults);
 
 	for (cont=0; cont<pNumbResults; cont++){
-		arrayResult[cont] = Sumatoria(0, pFilterOrder, pArrayInitialConditions,
-				pArrayCoefficients, pArrayOfPoints[cont]);
 
+		arrayResult[cont] = MathOperation.Sumatoria(pFilterOrder, 0, pArrayCoefficients,
+				arrayX, cont);
 	}
 
-	result = arrayResult;
-	return *result;
+	cout << "y[n]:";
+	for (cont=0; cont<pNumbResults; cont++){
+		cout << " " << arrayResult[cont];
+	}
+	cout << "" << endl;
+
+	return arrayResult;
 }
 
 
