@@ -8,6 +8,8 @@
 #ifndef HEADER_FIR_H_
 #define HEADER_FIR_H_
 
+#include "DataFilter.h"
+
 class FIR {
 public:
 
@@ -18,20 +20,14 @@ public:
 
 	/**
 	 * @brief Method that implements the Direct Form I of a FIR Filter
-	 * @param pFilterOrder
-	 * @param pArrayCoefficients
-	 * @param pArrayOfPoints
-	 * @param pArrayInitialConditions
-	 * @param pNumbResults
-	 * @param pInterval
+	 * @param pDataFilter
 	 */
-	float* DirectFormI(int pFilterOrder, float *pArrayCoefficients, float *pArrayOfPoints,
-			float *pArrayInitialConditions, int pNumbResults);
+	DataFilter* directFormI(DataFilter *pDataFilter);
 
 	/**
 	 *
 	 */
-	int AmountResults(float *pArrayOfInterval);
+	int amountResults(double *pArrayOfInterval);
 
 	/**
 	 * @brief Destruction of class

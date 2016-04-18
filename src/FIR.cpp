@@ -21,39 +21,32 @@ FIR::~FIR() {
 	// TODO Auto-generated destructor stub
 }
 
-float* FIR::DirectFormI(int pFilterOrder, float *pArrayCoefficients, float *pArrayOfPoints,
-		float *pArrayInitialConditions, int pNumbResults){
+DataFilter* FIR::directFormI(DataFilter *pDataFilter) {
 
-	FuntionsMath MathOperation;
-	float *arrayResult = new float[pNumbResults];
-	int cont;
-	float *arrayX;
+	FuntionsMath _MathOperation;
 
-	arrayX = MathOperation.ConcatenateArrays(pArrayInitialConditions, (pFilterOrder-1), pArrayOfPoints, pNumbResults);
+	pDataFilter->createArrayInput();
 
-	for (cont=0; cont<pNumbResults; cont++){
+	int _Cont;
+	int _FilterOrder = pDataFilter->getFilterOrder();
+	int _NumbOutput = pDataFilter->getNumbOutput();
+	double *_ArrayResult = pDataFilter->getArrayResult();
+	double *_ArrayCoefficients =  pDataFilter->getArrayCoefficients();
+	double *_ArrayInputs = pDataFilter->getArrayInputs();
 
-		arrayResult[cont] = MathOperation.Sumatoria(pFilterOrder, 0, pArrayCoefficients,
-				arrayX, cont);
+	for (_Cont = 0; _Cont < _NumbOutput; _Cont++) {
+		_ArrayResult[_Cont] = _MathOperation.sum(_FilterOrder, 0,
+				_ArrayCoefficients, _ArrayInputs, _Cont);
 	}
 
+
 	cout << "y[n]:";
-	for (cont=0; cont<pNumbResults; cont++){
-		cout << " " << arrayResult[cont];
+	for (_Cont = 0; _Cont < _NumbOutput; _Cont++) {
+		cout << " " << _ArrayResult[_Cont];
 	}
 	cout << "" << endl;
 
-	return arrayResult;
+	return pDataFilter;
 }
-
-int FIR::AmountResults(float *pArrayOfInterval){
-
-		int amountResult = 0;
-
-		amountResult = (pArrayOfInterval[0]-pArrayOfInterval[1]-1)*-1;
-
-		return amountResult;
-	}
-
 
 
