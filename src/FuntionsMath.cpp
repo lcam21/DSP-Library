@@ -16,7 +16,7 @@ FuntionsMath::FuntionsMath() {
 }
 
 float FuntionsMath::sum(int pUpperLimit, int pLowerLimit, double* pCoefficients,
-		double* arrayX, int pCont) {
+		double* pArray, int pCont) {
 
 	float result = 0; //save the result
 	int posInitCond = 0; //access to
@@ -26,19 +26,17 @@ float FuntionsMath::sum(int pUpperLimit, int pLowerLimit, double* pCoefficients,
 	for (cont = pLowerLimit; cont <= pUpperLimit; cont++) {
 
 		posInitCond = pCont + pUpperLimit;
-		condInit = arrayX[posInitCond];
+		condInit = pArray[posInitCond];
 		result += pCoefficients[cont] * condInit;
 
-
 		cout << "b[" << cont << "]: " << pCoefficients[cont] << " * ";
-		cout << "x[" << posInitCond << "]: " << arrayX[posInitCond];
+		cout << "x[" << posInitCond << "]: " << pArray[posInitCond];
 		cout << " = " << result << endl;
-
 
 		pCont--;
 	}
 
-	cout << "y[n]: " <<  result << endl << endl;
+	cout << "y[n]: " << result << endl << endl;
 	return result;
 }
 

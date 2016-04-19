@@ -25,11 +25,6 @@ public:
 	DataFilter* directFormI(DataFilter *pDataFilter);
 
 	/**
-	 *
-	 */
-	int amountResults(double *pArrayOfInterval);
-
-	/**
 	 * @brief Destruction of class
 	 */
 	virtual ~FIR();

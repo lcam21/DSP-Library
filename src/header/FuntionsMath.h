@@ -21,7 +21,7 @@ public:
 	 * @param pUpperLimit upper limit of the sum
 	 * @param pLowerLimit lower limit of the sum
 	 * @param pCoefficients array of filter coefficients
-	 * @param pArrayX array containing the values on the x axis
+	 * @param pArray array containing the values to iterated
 	 * @param pCont actual position
 	 * @return variable type of float, it content the result of sum
 	 */

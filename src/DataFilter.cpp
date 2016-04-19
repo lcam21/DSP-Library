@@ -12,32 +12,50 @@
 using namespace std;
 
 DataFilter::DataFilter(int pFilterOrder) {
-	ArrayInitialConditions = new double[pFilterOrder];
-	ArrayCoefficients = new double[pFilterOrder + 1];
+	ArrayInitialConditionsX = new double[pFilterOrder];
+	ArrayCoefficientsB = new double[pFilterOrder + 1];
 	ArrayIntervalOutput = new int[2];
 	setFilterOrder(pFilterOrder);
 }
 
 DataFilter::~DataFilter() {
-	delete ArrayInitialConditions;
-	delete ArrayCoefficients;
-	delete ArrayInputs;
+	delete ArrayInitialConditionsX;
+	delete ArrayCoefficientsB;
+	delete ArrayInputsX;
 	delete ArrayIntervalOutput;
 	delete ArrayResult;
 }
 
-void DataFilter::createArrayInput(){
+void DataFilter::createArrayInputX(){ //****OJO**** Esta funcion solo funciona para b sub k
 
 	int _Cont = 0;
 
 	for (_Cont = NumbOutput; _Cont >= 0; _Cont--) {
-		ArrayInputs[_Cont + FilterOrder] = ArrayInputs[_Cont];
+		ArrayInputsX[_Cont + FilterOrder] = ArrayInputsX[_Cont];
 	}
 
 	for (_Cont = 0; _Cont < FilterOrder; _Cont++) {
-		ArrayInputs[_Cont] = ArrayInitialConditions[_Cont];
+	//**** Creo que aqui se deberia hacer el cambio
+	// for (_Cont = 1; _Cont < FilterOrder; _Cont++) {
+		// ArrayInputs[_Cont-1] = ArrayInitialConditions[_Cont];
+		ArrayInputsX[_Cont] = ArrayInitialConditionsX[_Cont];
+	}
+}
+
+void DataFilter::createArrayInputY(){ //****OJO**** Esta funcion solo funciona para b sub k
+
+	int _Cont = 0;
+
+	for (_Cont = NumbOutput; _Cont >= 0; _Cont--) {
+		ArrayInputsY[_Cont + FilterOrder] = ArrayInputsY[_Cont];
 	}
 
+	//for (_Cont = 0; _Cont < FilterOrder; _Cont++) {
+	//**** Creo que aqui se deberia hacer el cambio
+	for (_Cont = 1; _Cont < FilterOrder; _Cont++) {
+		ArrayInputsY[_Cont-1] = ArrayInitialConditionsY[_Cont];
+		//ArrayInputsX[_Cont] = ArrayInitialConditionsX[_Cont];
+	}
 }
 
 double* DataFilter::getArrayResult() const {
@@ -62,28 +80,28 @@ void DataFilter::numbOutput(int *pArrayOfInterval) {
 	ArrayResult = new double[NumbOutput];
 }
 
-double* DataFilter::getArrayCoefficients() const {
-	return ArrayCoefficients;
+double* DataFilter::getArrayCoefficientsB() const {
+	return ArrayCoefficientsB;
 }
 
-void DataFilter::setArrayCoefficients(double* pArrayCoefficients) {
-	ArrayCoefficients = pArrayCoefficients;
+void DataFilter::setArrayCoefficientsB(double* pArrayCoefficients) {
+	ArrayCoefficientsB = pArrayCoefficients;
 }
 
-double* DataFilter::getArrayInitialConditions() const {
-	return ArrayInitialConditions;
+double* DataFilter::getArrayInitialConditionsX() const {
+	return ArrayInitialConditionsX;
 }
 
-void DataFilter::setArrayInitialConditions(double* pArrayInitialConditions) {
-	ArrayInitialConditions = pArrayInitialConditions;
+void DataFilter::setArrayInitialConditionsX(double* pArrayInitialConditions) {
+	ArrayInitialConditionsX = pArrayInitialConditions;
 }
 
-double* DataFilter::getArrayInputs() const {
-	return ArrayInputs;
+double* DataFilter::getArrayInputsX() const {
+	return ArrayInputsX;
 }
 
-void DataFilter::setArrayInputs(double* pArrayInputs) {
-	ArrayInputs = pArrayInputs;
+void DataFilter::setArrayInputsX(double* pArrayInputs) {
+	ArrayInputsX = pArrayInputs;
 }
 
 int* DataFilter::getArrayIntervalOutput() const {

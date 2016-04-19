@@ -25,14 +25,14 @@ DataFilter* FIR::directFormI(DataFilter *pDataFilter) {
 
 	FuntionsMath _MathOperation;
 
-	pDataFilter->createArrayInput();
+	pDataFilter->createArrayInputX();
 
 	int _Cont;
 	int _FilterOrder = pDataFilter->getFilterOrder();
 	int _NumbOutput = pDataFilter->getNumbOutput();
 	double *_ArrayResult = pDataFilter->getArrayResult();
-	double *_ArrayCoefficients =  pDataFilter->getArrayCoefficients();
-	double *_ArrayInputs = pDataFilter->getArrayInputs();
+	double *_ArrayCoefficients =  pDataFilter->getArrayCoefficientsB();
+	double *_ArrayInputs = pDataFilter->getArrayInputsX();
 
 	for (_Cont = 0; _Cont < _NumbOutput; _Cont++) {
 		_ArrayResult[_Cont] = _MathOperation.sum(_FilterOrder, 0,

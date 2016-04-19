@@ -25,9 +25,9 @@ int main() {
 
 	DataFilter *_DataFilter = new DataFilter(_FilterOrder);
 
-	_DataFilter->setArrayCoefficients(_Coeficientes);
-	_DataFilter->setArrayInitialConditions(_CondicionesIniciales);
-	_DataFilter->setArrayInputs(_EntradasX);
+	_DataFilter->setArrayCoefficientsB(_Coeficientes);
+	_DataFilter->setArrayInitialConditionsX(_CondicionesIniciales);
+	_DataFilter->setArrayInputsX(_EntradasX);
 	_DataFilter->setArrayIntervalOutput(_IntervaloResultado);
 
 	_ClassFIR.directFormI(_DataFilter);
