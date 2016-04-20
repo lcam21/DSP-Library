@@ -15,47 +15,45 @@ FuntionsMath::FuntionsMath() {
 	// TODO Auto-generated constructor stub
 }
 
-float FuntionsMath::sum(int pUpperLimit, int pLowerLimit, double* pCoefficients,
+double FuntionsMath::sum(int pUpperLimit, int pLowerLimit, double* pCoefficients,
 		double* pArray, int pCont) {
 
-	float result = 0; //save the result
-	int posInitCond = 0; //access to
-	int condInit = 0; //access to
-	int cont; //cont
+	double _Result = 0; //save the result
+	int _PosInitCond = 0; //access to
+	int _Cont; //cont
 
-	for (cont = pLowerLimit; cont <= pUpperLimit; cont++) {
+	for (_Cont = pLowerLimit; _Cont <= pUpperLimit; _Cont++) {
 
-		posInitCond = pCont + pUpperLimit;
-		condInit = pArray[posInitCond];
-		result += pCoefficients[cont] * condInit;
+		_PosInitCond = pCont + pUpperLimit;
+		_Result += pCoefficients[_Cont] * pArray[_PosInitCond];
 
-		cout << "b[" << cont << "]: " << pCoefficients[cont] << " * ";
-		cout << "x[" << posInitCond << "]: " << pArray[posInitCond];
-		cout << " = " << result << endl;
+		cout << "b-a[" << _Cont << "]: " << pCoefficients[_Cont] << " * ";
+		cout << "x-y[" << _PosInitCond << "]: " << pArray[_PosInitCond];
+		cout << " = " << _Result << endl;
 
 		pCont--;
 	}
 
-	cout << "y[n]: " << result << endl << endl;
-	return result;
+	//cout << "y[n]: " << result << endl << endl;
+	return _Result;
 }
 
-float *FuntionsMath::concatenateArrays(double *pArray1, int pSizeArray1,
+double *FuntionsMath::concatenateArrays(double *pArray1, int pSizeArray1,
 		double*pArray2, int pSizeArray2) {
 
-	float *resultArray = new float[pSizeArray1 + pSizeArray2];
+	double *_ResultArray = new double[pSizeArray1 + pSizeArray2];
 
-	int cont = 0;
+	int _Cont = 0;
 
-	for (cont = 0; cont < pSizeArray1; cont++) {
-		resultArray[cont] = pArray1[cont];
+	for (_Cont = 0; _Cont < pSizeArray1; _Cont++) {
+		_ResultArray[_Cont] = pArray1[_Cont];
 	}
 
-	for (cont = 0; cont < pSizeArray2; cont++) {
-		resultArray[cont + pSizeArray1] = pArray2[cont];
+	for (_Cont = 0; _Cont < pSizeArray2; _Cont++) {
+		_ResultArray[_Cont + pSizeArray1] = pArray2[_Cont];
 	}
 
-	return resultArray;
+	return _ResultArray;
 }
 
 FuntionsMath::~FuntionsMath() {

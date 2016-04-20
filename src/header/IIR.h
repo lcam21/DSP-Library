@@ -8,6 +8,8 @@
 #ifndef HEADER_IIR_H_
 #define HEADER_IIR_H_
 
+#include "DataFilter.h"
+
 class IIR {
 public:
 

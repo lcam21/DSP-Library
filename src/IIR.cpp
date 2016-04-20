@@ -5,7 +5,11 @@
  *      Author: lcalvare
  */
 
+#include <iostream>
 #include "header/IIR.h"
+#include "header/FuntionsMath.h"
+
+using namespace std;
 
 IIR::IIR() {
 	// TODO Auto-generated constructor stub
@@ -21,19 +25,17 @@ DataFilter* IIR::directFormI(DataFilter *pDataFilter) {
 	FuntionsMath _MathOperation;
 
 	pDataFilter->createArrayInputX();
-	pDataFilter->createArrayInputY(); //CREO Q NO DEBE SER ASI!!
-
-	//ANALIZAR COMO VAN VARIANDO LAS y[n-k] EN EL TIEMPO Y LA FORMA ADECUADA DE IRLAS MOVIENDO
+	//pDataFilter->createArrayInputY(); //CREO Q NO se ocupa
 
 	int _Cont;
 	int _FilterOrder = pDataFilter->getFilterOrder();
 	int _NumbOutput = pDataFilter->getNumbOutput();
 
-	double *_ArrayResultX;
+	double *_ArrayResultX = new double [_NumbOutput];
 	double *_ArrayCoefficientsB = pDataFilter->getArrayCoefficientsB();
 	double *_ArrayInputsX = pDataFilter->getArrayInputsX();
 
-	double *_ArrayResultY;
+	double _ArrayResultY;
 	double *_ArrayCoefficientsA = pDataFilter->getArrayCoefficientsA();
 	double *_ArrayInputsY = pDataFilter->getArrayInputsY();
 
@@ -44,14 +46,16 @@ DataFilter* IIR::directFormI(DataFilter *pDataFilter) {
 		_ArrayResultX[_Cont] = _MathOperation.sum(_FilterOrder, 0,
 				_ArrayCoefficientsB, _ArrayInputsX, _Cont);
 
-		//FALTA CALCULAR LA SUMATORIA DE A*Y
-		//FALTA TOMAR EN CUENTA LAS y[n] ANTERIORES
-		_ArrayResultY[_Cont] = _MathOperation.sum(_FilterOrder, 1,
-				_ArrayCoefficientsA, _ArrayInputsY, _Cont);
+		cout << "Inicio" << endl;
+		_ArrayResultY = _MathOperation.sum(_FilterOrder-1, 0,
+				_ArrayCoefficientsA, _ArrayInputsY, 0);
+		cout << "Final" << endl;
 
+		_ArrayResult[_Cont] = _ArrayResultX[_Cont] - _ArrayResultY;
+		_ArrayInputsY[_FilterOrder] = _ArrayResult[_Cont];
+		cout << "y[n]: " << _ArrayResult[_Cont] << endl;
 
-
-		_ArrayResult[_Cont] = _ArrayResultX[_Cont] - _ArrayResultY[_Cont];
+		pDataFilter->moveArray();
 	}
 
 	cout << "y[n]:";

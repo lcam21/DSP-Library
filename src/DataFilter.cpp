@@ -15,6 +15,7 @@ DataFilter::DataFilter(int pFilterOrder) {
 	ArrayInitialConditionsX = new double[pFilterOrder];
 	ArrayCoefficientsB = new double[pFilterOrder + 1];
 	ArrayIntervalOutput = new int[2];
+	ArrayInputsY = new double[pFilterOrder+1];
 	setFilterOrder(pFilterOrder);
 }
 
@@ -26,7 +27,7 @@ DataFilter::~DataFilter() {
 	delete ArrayResult;
 }
 
-void DataFilter::createArrayInputX(){ //****OJO**** Esta funcion solo funciona para b sub k
+void DataFilter::createArrayInputX() { //****OJO**** Esta funcion solo funciona para b sub k
 
 	int _Cont = 0;
 
@@ -35,16 +36,16 @@ void DataFilter::createArrayInputX(){ //****OJO**** Esta funcion solo funciona p
 	}
 
 	for (_Cont = 0; _Cont < FilterOrder; _Cont++) {
-	//**** Creo que aqui se deberia hacer el cambio
-	// for (_Cont = 1; _Cont < FilterOrder; _Cont++) {
+		//**** Creo que aqui se deberia hacer el cambio
+		// for (_Cont = 1; _Cont < FilterOrder; _Cont++) {
 		// ArrayInputs[_Cont-1] = ArrayInitialConditions[_Cont];
 		ArrayInputsX[_Cont] = ArrayInitialConditionsX[_Cont];
 	}
 }
 
-void DataFilter::createArrayInputY(){ //****OJO**** Esta funcion solo funciona para b sub k
+void DataFilter::createArrayInputY() { //****OJO**** Creo q no la necesito
 
-	int _Cont = 0;
+	int _Cont;
 
 	for (_Cont = NumbOutput; _Cont >= 0; _Cont--) {
 		ArrayInputsY[_Cont + FilterOrder] = ArrayInputsY[_Cont];
@@ -53,8 +54,15 @@ void DataFilter::createArrayInputY(){ //****OJO**** Esta funcion solo funciona p
 	//for (_Cont = 0; _Cont < FilterOrder; _Cont++) {
 	//**** Creo que aqui se deberia hacer el cambio
 	for (_Cont = 1; _Cont < FilterOrder; _Cont++) {
-		ArrayInputsY[_Cont-1] = ArrayInitialConditionsY[_Cont];
+		ArrayInputsY[_Cont - 1] = ArrayInitialConditionsY[_Cont];
 		//ArrayInputsX[_Cont] = ArrayInitialConditionsX[_Cont];
+	}
+}
+
+void DataFilter::moveArray() {
+	int _Cont;
+	for (_Cont = 0; _Cont < FilterOrder; _Cont++) {
+		ArrayInputsY[_Cont] = ArrayInputsY[_Cont+1];
 	}
 }
 
@@ -119,4 +127,28 @@ int DataFilter::getFilterOrder() const {
 
 void DataFilter::setFilterOrder(int pFilterOrder) {
 	FilterOrder = pFilterOrder;
+}
+
+double* DataFilter::getArrayCoefficientsA() const {
+	return ArrayCoefficientsA;
+}
+
+void DataFilter::setArrayCoefficientsA(double* arrayCoefficientsA) {
+	ArrayCoefficientsA = arrayCoefficientsA;
+}
+
+double* DataFilter::getArrayInitialConditionsY() const {
+	return ArrayInitialConditionsY;
+}
+
+void DataFilter::setArrayInitialConditionsY(double* arrayInitialConditionsY) {
+	ArrayInitialConditionsY = arrayInitialConditionsY;
+}
+
+double* DataFilter::getArrayInputsY() const {
+	return ArrayInputsY;
+}
+
+void DataFilter::setArrayInputsY(double* arrayInputsY) {
+	ArrayInputsY = arrayInputsY;
 }

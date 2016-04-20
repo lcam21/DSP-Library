@@ -33,6 +33,11 @@ public:
 	void createArrayInputY();
 
 	/**
+	 * @brief move the data of array and add pData in te position [n-1]
+	 */
+	void moveArray();
+
+	/**
 	 * @brief return the pointer of array that have the coefficients
 	 * @return pointer double
 	 */
@@ -108,7 +113,12 @@ public:
 	 * @brief set the value of number of output
 	 */
 	void setNumbOutput(int numbOutput);
-
+	double* getArrayCoefficientsA() const;
+	void setArrayCoefficientsA(double* arrayCoefficientsA);
+	double* getArrayInitialConditionsY() const;
+	void setArrayInitialConditionsY(double* arrayInitialConditionsY);
+	double* getArrayInputsY() const;
+	void setArrayInputsY(double* arrayInputsY);
 
 private:
 	//Variable generic of filter
