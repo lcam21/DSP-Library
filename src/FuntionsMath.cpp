@@ -15,10 +15,10 @@ FuntionsMath::FuntionsMath() {
 	// TODO Auto-generated constructor stub
 }
 
-double FuntionsMath::sum(int pUpperLimit, int pLowerLimit, double* pCoefficients,
-		double* pArray, int pCont) {
+float FuntionsMath::sum(int pUpperLimit, int pLowerLimit, float* pCoefficients,
+		float* pArray, int pCont) {
 
-	double _Result = 0; //save the result
+	float _Result = 0; //save the result
 	int _PosInitCond = 0; //access to
 	int _Cont; //cont
 
@@ -27,21 +27,22 @@ double FuntionsMath::sum(int pUpperLimit, int pLowerLimit, double* pCoefficients
 		_PosInitCond = pCont + pUpperLimit;
 		_Result += pCoefficients[_Cont] * pArray[_PosInitCond];
 
+		/*cout << "pCont " << pCont << endl;
 		cout << "b-a[" << _Cont << "]: " << pCoefficients[_Cont] << " * ";
 		cout << "x-y[" << _PosInitCond << "]: " << pArray[_PosInitCond];
-		cout << " = " << _Result << endl;
+		cout << " = " << _Result << endl;*/
 
 		pCont--;
 	}
 
-	//cout << "y[n]: " << result << endl << endl;
+//	cout << "y[n]: " << _Result << endl << endl;
 	return _Result;
 }
 
-double *FuntionsMath::concatenateArrays(double *pArray1, int pSizeArray1,
-		double*pArray2, int pSizeArray2) {
+float *FuntionsMath::concatenateArrays(float *pArray1, int pSizeArray1,
+		float*pArray2, int pSizeArray2) {
 
-	double *_ResultArray = new double[pSizeArray1 + pSizeArray2];
+	float *_ResultArray = new float[pSizeArray1 + pSizeArray2];
 
 	int _Cont = 0;
 

@@ -12,10 +12,14 @@
 using namespace std;
 
 DataFilter::DataFilter(int pFilterOrder) {
-	ArrayInitialConditionsX = new double[pFilterOrder];
-	ArrayCoefficientsB = new double[pFilterOrder + 1];
+	ArrayInitialConditionsX = new float[pFilterOrder];
+	ArrayCoefficientsB = new float[pFilterOrder + 1];
 	ArrayIntervalOutput = new int[2];
-	ArrayInputsY = new double[pFilterOrder+1];
+	ArrayInputsY = new float[pFilterOrder + 1]; //NO SE OCUPA
+	ArrayInputsX = new float[pFilterOrder + BUFFER_SIZE];
+	ArrayResult = new float[pFilterOrder + BUFFER_SIZE];
+	Buffer1 = new float[BUFFER_SIZE];
+	Buffer2 = new float[BUFFER_SIZE];
 	setFilterOrder(pFilterOrder);
 }
 
@@ -27,18 +31,15 @@ DataFilter::~DataFilter() {
 	delete ArrayResult;
 }
 
-void DataFilter::createArrayInputX() { //****OJO**** Esta funcion solo funciona para b sub k
+void DataFilter::createArrayInputX() {
 
 	int _Cont = 0;
 
-	for (_Cont = NumbOutput; _Cont >= 0; _Cont--) {
+	for (_Cont = BUFFER_SIZE - 1; _Cont >= 0; _Cont--) {
 		ArrayInputsX[_Cont + FilterOrder] = ArrayInputsX[_Cont];
 	}
 
 	for (_Cont = 0; _Cont < FilterOrder; _Cont++) {
-		//**** Creo que aqui se deberia hacer el cambio
-		// for (_Cont = 1; _Cont < FilterOrder; _Cont++) {
-		// ArrayInputs[_Cont-1] = ArrayInitialConditions[_Cont];
 		ArrayInputsX[_Cont] = ArrayInitialConditionsX[_Cont];
 	}
 }
@@ -51,26 +52,60 @@ void DataFilter::createArrayInputY() { //****OJO**** Creo q no la necesito
 		ArrayInputsY[_Cont + FilterOrder] = ArrayInputsY[_Cont];
 	}
 
-	//for (_Cont = 0; _Cont < FilterOrder; _Cont++) {
-	//**** Creo que aqui se deberia hacer el cambio
 	for (_Cont = 1; _Cont < FilterOrder; _Cont++) {
 		ArrayInputsY[_Cont - 1] = ArrayInitialConditionsY[_Cont];
-		//ArrayInputsX[_Cont] = ArrayInitialConditionsX[_Cont];
 	}
 }
 
-void DataFilter::moveArray() {
+void DataFilter::moveArray(float *pArray) {
 	int _Cont;
-	for (_Cont = 0; _Cont < FilterOrder; _Cont++) {
-		ArrayInputsY[_Cont] = ArrayInputsY[_Cont+1];
+
+	/*cout << endl << "--Move Array--" << endl;
+
+	cout << "In:";
+	for (_Cont = 0; _Cont < BUFFER_SIZE+ FilterOrder; _Cont++) {
+		cout << " " << pArray[_Cont];
 	}
+	cout << endl;
+*/
+	for (_Cont = 0; _Cont < FilterOrder; _Cont++) {
+		pArray[_Cont] = pArray[_Cont + BUFFER_SIZE];
+	}
+
+	/*cout << "Out:";
+	for (_Cont = 0; _Cont < BUFFER_SIZE+ FilterOrder; _Cont++) {
+		cout << " " << pArray[_Cont];
+	}
+	cout << endl << endl;*/
 }
 
-double* DataFilter::getArrayResult() const {
+void DataFilter::copyArray(float *pArray1, float *pArray2) {
+	int _Cont;
+
+	/*cout << endl << "--Copy Array--" << endl;
+
+	cout << "In:";
+	for (_Cont = 0; _Cont < BUFFER_SIZE+ FilterOrder; _Cont++) {
+		cout << " " << pArray1[_Cont];
+	}
+	cout << endl;*/
+
+	for (_Cont = 0; _Cont < BUFFER_SIZE; _Cont++) {
+		pArray1[_Cont + FilterOrder] = pArray2[_Cont];
+	}
+
+	/*cout << "Out:";
+	for (_Cont = 0; _Cont < BUFFER_SIZE+ FilterOrder; _Cont++) {
+		cout << " " << pArray1[_Cont];
+	}
+	cout << endl << endl;*/
+}
+
+float* DataFilter::getArrayResult() const {
 	return ArrayResult;
 }
 
-void DataFilter::setArrayResult(double* arrayResult) {
+void DataFilter::setArrayResult(float* arrayResult) {
 	ArrayResult = arrayResult;
 }
 
@@ -82,33 +117,51 @@ void DataFilter::setNumbOutput(int numbOutput) {
 	NumbOutput = numbOutput;
 }
 
+float* DataFilter::getBuffer1() const {
+	return Buffer1;
+}
+
+void DataFilter::setBuffer1(float* buffer1) {
+	Buffer1 = buffer1;
+	Buffer1Ready = 1;
+}
+
+float* DataFilter::getBuffer2() const {
+	return Buffer2;
+}
+
+void DataFilter::setBuffer2(float* buffer2) {
+	Buffer2 = buffer2;
+	Buffer2Ready = 1;
+}
+
 void DataFilter::numbOutput(int *pArrayOfInterval) {
 	NumbOutput = pArrayOfInterval[1] - pArrayOfInterval[0] + 1;
 	//ArrayInputs = new double[NumbOutput+FilterOrder]; //OJO!!!
-	ArrayResult = new double[NumbOutput];
+	ArrayResult = new float[NumbOutput];
 }
 
-double* DataFilter::getArrayCoefficientsB() const {
+float* DataFilter::getArrayCoefficientsB() const {
 	return ArrayCoefficientsB;
 }
 
-void DataFilter::setArrayCoefficientsB(double* pArrayCoefficients) {
+void DataFilter::setArrayCoefficientsB(float* pArrayCoefficients) {
 	ArrayCoefficientsB = pArrayCoefficients;
 }
 
-double* DataFilter::getArrayInitialConditionsX() const {
-	return ArrayInitialConditionsX;
-}
+/*float* DataFilter::getArrayInitialConditionsX() const {
+ return ArrayInitialConditionsX;
+ }*/
 
-void DataFilter::setArrayInitialConditionsX(double* pArrayInitialConditions) {
+void DataFilter::setArrayInitialConditionsX(float *pArrayInitialConditions) {
 	ArrayInitialConditionsX = pArrayInitialConditions;
 }
 
-double* DataFilter::getArrayInputsX() const {
+float* DataFilter::getArrayInputsX() const {
 	return ArrayInputsX;
 }
 
-void DataFilter::setArrayInputsX(double* pArrayInputs) {
+void DataFilter::setArrayInputsX(float* pArrayInputs) {
 	ArrayInputsX = pArrayInputs;
 }
 
@@ -129,26 +182,32 @@ void DataFilter::setFilterOrder(int pFilterOrder) {
 	FilterOrder = pFilterOrder;
 }
 
-double* DataFilter::getArrayCoefficientsA() const {
+float* DataFilter::getArrayCoefficientsA() const {
 	return ArrayCoefficientsA;
 }
 
-void DataFilter::setArrayCoefficientsA(double* arrayCoefficientsA) {
+void DataFilter::setArrayCoefficientsA(float* arrayCoefficientsA) {
 	ArrayCoefficientsA = arrayCoefficientsA;
 }
 
-double* DataFilter::getArrayInitialConditionsY() const {
+float* DataFilter::getArrayInitialConditionsY() const {
 	return ArrayInitialConditionsY;
 }
 
-void DataFilter::setArrayInitialConditionsY(double* arrayInitialConditionsY) {
-	ArrayInitialConditionsY = arrayInitialConditionsY;
+void DataFilter::setArrayInitialConditionsY(float* arrayInitialConditionsY) {
+	int _Cont;
+
+	for (_Cont = 0; _Cont < FilterOrder; _Cont++) {
+		ArrayInputsY[_Cont] = arrayInitialConditionsY[_Cont];
+	}
+
+	//ArrayInitialConditionsY = arrayInitialConditionsY;
 }
 
-double* DataFilter::getArrayInputsY() const {
+float* DataFilter::getArrayInputsY() const {
 	return ArrayInputsY;
 }
 
-void DataFilter::setArrayInputsY(double* arrayInputsY) {
+void DataFilter::setArrayInputsY(float* arrayInputsY) {
 	ArrayInputsY = arrayInputsY;
 }

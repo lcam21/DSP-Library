@@ -8,9 +8,10 @@
 #ifndef DATAFILTER_H_
 #define DATAFILTER_H_
 
+#define BUFFER_SIZE 10
+
 class DataFilter {
 public:
-
 	/**
 	 * @brief Constructor of class
 	 * @param pFilterOrder number of filter order
@@ -35,40 +36,42 @@ public:
 	/**
 	 * @brief move the data of array and add pData in te position [n-1]
 	 */
-	void moveArray();
+	void moveArray(float *pArray);
+
+	void copyArray(float *pArray1, float *pArray2);
 
 	/**
 	 * @brief return the pointer of array that have the coefficients
 	 * @return pointer double
 	 */
-	double* getArrayCoefficientsB() const;
+	float* getArrayCoefficientsB() const;
 
 	/**
 	 * @brief set the value of array of coefficients
 	 */
-	void setArrayCoefficientsB(double* pArrayCoefficients);
+	void setArrayCoefficientsB(float* pArrayCoefficients);
 
 	/**
 	 * @brief return the pointer of array that have the initial conditions
 	 * @return pointer double
 	 */
-	double* getArrayInitialConditionsX() const;
+	float* getArrayInitialConditionsX() const;
 
 	/**
 	 * @brief set the value of array of initial conditions
 	 */
-	void setArrayInitialConditionsX(double* pArrayInitialConditions);
+	void setArrayInitialConditionsX(float* pArrayInitialConditions);
 
 	/**
 	 * @brief return the pointer of array that have the inputs
 	 * @return pointer double
 	 */
-	double* getArrayInputsX() const;
+	float* getArrayInputsX() const;
 
 	/**
 	 * @brief set the value of array of initial inputs
 	 */
-	void setArrayInputsX(double* pArrayInputs);
+	void setArrayInputsX(float* pArrayInputs);
 
 	/**
 	 * @brief return the pointer of array that have the interval of output
@@ -94,14 +97,14 @@ public:
 
 	/**
 	 * @brief return the pointer of array that have the array result
-	 * @return pointer double
+	 * @return pointer float
 	 */
-	double* getArrayResult() const;
+	float* getArrayResult() const;
 
 	/**
 	 * @brief set the value of array of result
 	 */
-	void setArrayResult(double* arrayResult);
+	void setArrayResult(float* arrayResult);
 
 	/**
 	 * @brief return the number of output
@@ -113,31 +116,42 @@ public:
 	 * @brief set the value of number of output
 	 */
 	void setNumbOutput(int numbOutput);
-	double* getArrayCoefficientsA() const;
-	void setArrayCoefficientsA(double* arrayCoefficientsA);
-	double* getArrayInitialConditionsY() const;
-	void setArrayInitialConditionsY(double* arrayInitialConditionsY);
-	double* getArrayInputsY() const;
-	void setArrayInputsY(double* arrayInputsY);
+	float* getArrayCoefficientsA() const;
+	void setArrayCoefficientsA(float* arrayCoefficientsA);
+	float* getArrayInitialConditionsY() const;
+	void setArrayInitialConditionsY(float* arrayInitialConditionsY);
+	float* getArrayInputsY() const;
+	void setArrayInputsY(float* arrayInputsY);
+	float* getBuffer1() const;
+	void setBuffer1(float* buffer1);
+	float* getBuffer2() const;
+	void setBuffer2(float* buffer2);
+	bool isBufferReady() const;
+	void setBufferReady(bool bufferReady);
 
 private:
 	//Variable generic of filter
 	int FilterOrder; //Number of the order of filter
 
 	// Variable of input data in axis X
-	double *ArrayInitialConditionsX; //Array that contains the initial conditions of x[n-k]
-	double *ArrayCoefficientsB; //Array that contains the coefficients b sub k
-	double *ArrayInputsX; //Array that contains the inputs x[n-k]
+	float *ArrayInitialConditionsX; //Array that contains the initial conditions of x[n-k]
+	float *ArrayCoefficientsB; //Array that contains the coefficients b sub k
+	float *ArrayInputsX; //Array that contains the inputs x[n-k]
 
 	//Variable of input data in axis Y
-	double *ArrayInitialConditionsY; //Array that contains the initial conditions of y[n-k]
-	double *ArrayCoefficientsA; //Array that contains the coefficients a sub k
-	double *ArrayInputsY; //Array that contains the inputs y[n-k]
+	float *ArrayInitialConditionsY; //Array that contains the initial conditions of y[n-k]
+	float *ArrayCoefficientsA; //Array that contains the coefficients a sub k
+	float *ArrayInputsY; //Array that contains the inputs y[n-k]
 
 	//Variable of output data in axis Y
-	double *ArrayResult; //Array that contains the end result y[n]
+	float *ArrayResult; //Array that contains the end result y[n]
 	int *ArrayIntervalOutput; //Array that contains the interval of output
 	int NumbOutput; //It get of ArrayIntervalOutput
+
+	float *Buffer1;
+	float *Buffer2;
+	bool Buffer1Ready;
+	bool Buffer2Ready;
 
 	/**
 	 * @brief funtion of get the number of output

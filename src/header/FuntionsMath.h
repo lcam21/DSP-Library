@@ -25,8 +25,8 @@ public:
 	 * @param pCont actual position
 	 * @return variable type of float, it content the result of sum
 	 */
-	double sum(int pUpperLimit, int pLowerLimit, double* pCoefficients,
-			double* arrayX, int pCont);
+	float sum(int pUpperLimit, int pLowerLimit, float* pCoefficients,
+			float* arrayX, int pCont);
 
 	/**
 	 * @brief Method to concatenate two arrays
@@ -36,7 +36,7 @@ public:
 	 * @param pSizeArray2 size second array
 	 * @return floating pointer array
 	 */
-	double *concatenateArrays(double *pArray1, int pSizeArray, double *pArray2,
+	float *concatenateArrays(float *pArray1, int pSizeArray, float *pArray2,
 			int pSizeArray2);
 
 	/**

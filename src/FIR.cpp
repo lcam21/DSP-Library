@@ -30,9 +30,9 @@ DataFilter* FIR::directFormI(DataFilter *pDataFilter) {
 	int _Cont;
 	int _FilterOrder = pDataFilter->getFilterOrder();
 	int _NumbOutput = pDataFilter->getNumbOutput();
-	double *_ArrayResult = pDataFilter->getArrayResult();
-	double *_ArrayCoefficients =  pDataFilter->getArrayCoefficientsB();
-	double *_ArrayInputs = pDataFilter->getArrayInputsX();
+	float *_ArrayResult = pDataFilter->getArrayResult();
+	float *_ArrayCoefficients =  pDataFilter->getArrayCoefficientsB();
+	float *_ArrayInputs = pDataFilter->getArrayInputsX();
 
 	for (_Cont = 0; _Cont < _NumbOutput; _Cont++) {
 		_ArrayResult[_Cont] = _MathOperation.sum(_FilterOrder, 0,

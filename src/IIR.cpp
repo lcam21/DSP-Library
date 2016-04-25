@@ -6,6 +6,8 @@
  */
 
 #include <iostream>
+#include <unistd.h>
+
 #include "header/IIR.h"
 #include "header/FuntionsMath.h"
 
@@ -25,43 +27,66 @@ DataFilter* IIR::directFormI(DataFilter *pDataFilter) {
 	FuntionsMath _MathOperation;
 
 	pDataFilter->createArrayInputX();
-	//pDataFilter->createArrayInputY(); //CREO Q NO se ocupa
 
 	int _Cont;
+
 	int _FilterOrder = pDataFilter->getFilterOrder();
 	int _NumbOutput = pDataFilter->getNumbOutput();
 
-	double *_ArrayResultX = new double [_NumbOutput];
-	double *_ArrayCoefficientsB = pDataFilter->getArrayCoefficientsB();
-	double *_ArrayInputsX = pDataFilter->getArrayInputsX();
+	float _ArrayResultX = 0;
+	float *_ArrayCoefficientsB = pDataFilter->getArrayCoefficientsB();
+	float *_ArrayInputsX = pDataFilter->getArrayInputsX();
 
-	double _ArrayResultY;
-	double *_ArrayCoefficientsA = pDataFilter->getArrayCoefficientsA();
-	double *_ArrayInputsY = pDataFilter->getArrayInputsY();
+	float _ArrayResultY = 0;
+	float *_ArrayCoefficientsA = pDataFilter->getArrayCoefficientsA();
+	float *_ArrayInputsY = pDataFilter->getArrayInputsY();
 
-	double *_ArrayResult = pDataFilter->getArrayResult();
+	float *_ArrayResult = pDataFilter->getArrayResult();
+
+	int _ContBuffer = 0;
+	bool _NumbBuffer = 1;
+
+	cout << "y[n]:" << endl;
 
 	// Se pueden hacer dos for y paralelizar
 	for (_Cont = 0; _Cont < _NumbOutput; _Cont++) {
-		_ArrayResultX[_Cont] = _MathOperation.sum(_FilterOrder, 0,
-				_ArrayCoefficientsB, _ArrayInputsX, _Cont);
 
-		cout << "Inicio" << endl;
-		_ArrayResultY = _MathOperation.sum(_FilterOrder-1, 0,
-				_ArrayCoefficientsA, _ArrayInputsY, 0);
-		cout << "Final" << endl;
+		/*while(_Buffer1Ready == false && _){
+		 usleep(1000);
+		 }*/
 
-		_ArrayResult[_Cont] = _ArrayResultX[_Cont] - _ArrayResultY;
-		_ArrayInputsY[_FilterOrder] = _ArrayResult[_Cont];
-		cout << "y[n]: " << _ArrayResult[_Cont] << endl;
+		if (_ContBuffer == BUFFER_SIZE) {
+			if (_NumbBuffer == 0) {
+				pDataFilter->moveArray(_ArrayInputsX);
+				pDataFilter->moveArray(_ArrayInputsY);
+				pDataFilter->copyArray(_ArrayInputsX,
+						pDataFilter->getBuffer1());
+				_NumbBuffer = 1;
+			} else if (_NumbBuffer == 1) {
+				pDataFilter->moveArray(_ArrayInputsX);
+				pDataFilter->moveArray(_ArrayInputsY);
+				pDataFilter->copyArray(_ArrayInputsX,
+						pDataFilter->getBuffer2());
+				_NumbBuffer = 0;
+			}
 
-		pDataFilter->moveArray();
-	}
+			_ContBuffer = 0;
+		}
 
-	cout << "y[n]:";
-	for (_Cont = 0; _Cont < _NumbOutput; _Cont++) {
+		_ArrayResultX = _MathOperation.sum(_FilterOrder, 0, _ArrayCoefficientsB,
+				_ArrayInputsX, _ContBuffer);
+
+		_ArrayResultY = _MathOperation.sum(_FilterOrder - 1, 0,
+				_ArrayCoefficientsA, _ArrayInputsY, _ContBuffer);
+
+		_ArrayResult[_Cont] = _ArrayResultX - _ArrayResultY;
+		_ArrayInputsY[_FilterOrder + _ContBuffer] = _ArrayResult[_Cont];
+
+		_ContBuffer++;
+
 		cout << " " << _ArrayResult[_Cont];
 	}
+
 	cout << "" << endl;
 
 	return pDataFilter;
